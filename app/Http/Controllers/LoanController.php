@@ -15,14 +15,14 @@ class LoanController extends Controller
 
     public function index()
     {
-        // Menampilkan daftar barang untuk dipinjam
+        
         $items = Item::all();
         return view('items.index', compact('items'));
     }
 
     public function myLoans()
     {
-        // Menampilkan daftar pinjaman user yang sedang login
+        
         $loans = Loan::with('item')
                     ->where('user_id', Auth::id())
                     ->orderBy('created_at', 'desc')
@@ -51,11 +51,11 @@ class LoanController extends Controller
                 return redirect()->back()->withErrors(['msg' => 'Stok barang habis!']);
             }
 
-            // 3. Kurangi Stok
+          
             $item->stock -= 1;
             $item->save();
 
-            // 4. Catat Peminjaman
+            
             Loan::create([
                 'user_id' => Auth::id(),
                 'item_id' => $item->id,
